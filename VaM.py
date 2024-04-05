@@ -1,5 +1,5 @@
 import copy
-
+import MyWord
 class Vector:
     SEP = ','
     def __init__(self, n):
@@ -49,7 +49,6 @@ class Vector:
         return res
     def __rmul__(self, other):
         return self * other
-
 class Matrix(Vector):
     SEP = '\n'
     def __init__(self, n):
@@ -75,5 +74,15 @@ class Matrix(Vector):
 
             minor = tmp()
             return minor
+    def GauseAlg(self):
+        Newmatr=copy.deepcopy(self._data)
+        n=len(Newmatr)
+        Newmatr=Newmatr[0]*(1/Newmatr[0][0])
+        for i in range(1, n):
+            c=-1.0*Newmatr[i][0]
+            hv=c * Newmatr[i-1]
+            Newmatr[i]=Newmatr[i]+hv
+        return Newmatr
+
 if __name__=="__main__":
     print("Hello, world!")
