@@ -74,15 +74,53 @@ class Matrix(Vector):
 
             minor = tmp()
             return minor
-    def GauseAlg(self):
-        Newmatr=copy.deepcopy(self._data)
-        n=len(Newmatr)
-        Newmatr=Newmatr[0]*(1/Newmatr[0][0])
-        for i in range(1, n):
-            c=-1.0*Newmatr[i][0]
-            hv=c * Newmatr[i-1]
-            Newmatr[i]=Newmatr[i]+hv
+    def _GauseRet(self):
+        Newmatr=Matrix(self)
+        n = len(Newmatr)
+        for i in range(n-1, -1, -1):
+            for t in range(i-1, -1, -1):
+                Newmatr[t] = Newmatr[t] + (-1.0 * Newmatr[t][i]) / Newmatr[i][i] * Newmatr[i]
+
+        for i in range(n):
+            Newmatr[i]=Newmatr[i]*(1.0/Newmatr[i][i])
         return Newmatr
+    def _GauseGo(self):
+        Newmatr = Matrix(self)
+        n = len(Newmatr)
+        for i in range(n):
+            for t in range(i + 1, n):
+                Newmatr[t] = Newmatr[t] + (-1.0 * Newmatr[t][i]) / Newmatr[i][i] * Newmatr[i]
+        return Newmatr
+    def _GauseAlg(self):
+        Newmatr=self._GauseGo()._GauseRet()
+        return Newmatr
+    def det(self):
+        Nm=self._GauseGo()
+        res=1.0
+        for i in range(len(Nm)):
+            res=res*Nm[i][i]
+        return res
+    def __pow__(self, other):
+        n=len(self)
+        assert isinstance(other, Matrix)
+        NM=Matrix(n)
+        for i in range(n):
+            NM[i]=Vector(self._data[i]._data+other._data[i]._data)
+        return NM
+    def inverse(self):
+        n=len(self)
+        E=Matrix(n)
+        base=[0.0]*n
+        for i in range(n):
+            b=copy.copy(base)
+            b[i]=1.0
+            E[i]=Vector(b)
+        NM=self**E
+        NM=NM._GauseAlg()
+        RES=Matrix(n)
+        for i in range(n):
+            RES[i]=Vector(NM._data[i]._data[n:])
+        return RES
 
 if __name__=="__main__":
     print("Hello, world!")
