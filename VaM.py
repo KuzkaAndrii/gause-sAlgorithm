@@ -1,5 +1,19 @@
 import copy
 import MyWord
+
+class matiter():
+    def __init__(self, M):
+        self._M=M
+        self._i=-1
+        self._j=-1
+        self._n=len(M)
+        self._m=len(M[0])
+    def __next__(self):
+        self._i+=1
+        self._j+=1
+        if self._i>=self._n or self._j>=self._m:
+            raise StopIteration
+        return self._M[self._i][self._j]
 class Vector:
     SEP = ','
     def __init__(self, n):
@@ -121,6 +135,8 @@ class Matrix(Vector):
         for i in range(n):
             RES[i]=Vector(NM._data[i]._data[n:])
         return RES
+    def __iter__(self):
+        return matiter(self)
 
 if __name__=="__main__":
     print("Hello, world!")

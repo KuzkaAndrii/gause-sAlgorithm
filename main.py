@@ -10,7 +10,16 @@ if __name__=="__main__":
         l=MyWord.cut(lines[i])
         l=list(map(float, l))
         M[i] = Vector(l)
-    print(M.det())
-    g = open('res.txt', 'wt')
-    print(M.inverse(), file=g)
-    g.close()
+
+    mn=M[0][0]
+    mx=M[0][0]
+    s=0
+    av=0
+    for i in M:
+        mn=min(mn, i)
+        mx=max(mx, i)
+        s+=i
+
+    av=s/(len(M)*len(M[0]))
+    print(mn, mx)
+    print(s, av)
