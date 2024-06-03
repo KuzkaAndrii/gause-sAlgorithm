@@ -3,19 +3,23 @@ if __name__=="__main__":
     f = open('inp.txt', "rt")
     lines = f.readlines()
     f.close()
-
-    M = Matrix(int(lines[0]))
-    lines = lines[1:]
-    for i in range(len(M)):
+    n=int(lines[0])
+    pm=[]
+    for i in range(1, n+1):
         l=MyWord.cut(lines[i])
         l=list(map(float, l))
-        M[i] = Vector(l)
+        v=Vector(l)
+        pm.append(v)
+    M = Matrix(pm)
+    mn = M[0][0]
+    mx = M[0][0]
+    s = 0
+    av = 0
+    for i in M:
+        mn = min(mn, i)
+        mx = max(mx, i)
+        s += i
 
-    print(M.det())
-    f=open('res.txt', "wt")
-    N=M.inverse()
-    print(len(N), file=f)
-    for i in range(len(N)):
-        v=N[i]
-        print(*v._data, file=f)
-    f.close()
+    av = s / (len(M) * len(M[0]))
+    print(mn, mx)
+    print(s, av)

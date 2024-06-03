@@ -4,16 +4,19 @@ import MyWord
 class matiter():
     def __init__(self, M):
         self._M=M
-        self._i=-1
+        self._i=0
         self._j=-1
         self._n=len(M)
         self._m=len(M[0])
     def __next__(self):
-        self._i+=1
         self._j+=1
-        if self._i>=self._n or self._j>=self._m:
+        if self._j>=self._m:
+            self._j=0
+            self._i+=1
+        if self._i>=self._n:
             raise StopIteration
-        return self._M[self._i][self._j]
+        l=self._M[self._i]
+        return l[self._j]
 class Vector:
     SEP = ','
     def __init__(self, n):
