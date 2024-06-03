@@ -21,5 +21,5 @@ if __name__=="__main__":
         s += i
 
     av = s / (len(M) * len(M[0]))
-    print(mn, mx)
+    print(mx, mn)
     print(s, av)
